@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { Configuration, OpenAIApi } from 'openai'
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -33,6 +34,10 @@ function App() {
     setIsLoading(false)
   }
 
+  const downloadImage = async () => {
+    saveAs(imageUrl, `${userPrompt.replace(/\s+/g, '-').toLowerCase()}.png`)
+  }
+
   return (
     <div className="App">
       <h1>OpenAI Image Generator</h1>
@@ -48,6 +53,7 @@ function App() {
       <button disabled={isLoading} onClick={generateImage}>{
         isLoading ? "Generating..." : "Generate Image"
       }</button>
+      <button disabled={!imageUrl} onClick={downloadImage}>Download Image</button>
       <div className="image-container">
         {imageUrl.length <= 0 || isLoading ? (
           <img src={reactLogo} className="logo react" alt="React logo" />
